@@ -44,4 +44,20 @@ OutlinedButton(
         debugPrint('Received click');
       },
       child: const Text('Click Me'),
-    );            
+    );   
+// GestureDetector get child and on tap , i can trasform any bedget to onpress buttom
+    GestureDetector(
+            onTap: (){ Navigator.pushNamed(context, "/signup");},
+            child: Text(" Sign up", style: TextStyle(fontWeight: FontWeight.bold),)),         
+
+// add FloatinAction Button
+ FloatingActionButton(
+                      onPressed: () {
+                        
+                      },
+                      backgroundColor: Colors.amber,
+                      child: const Icon(
+                        Icons.arrow_right,
+                        color: Colors.black,
+                      ),
+                    ),
