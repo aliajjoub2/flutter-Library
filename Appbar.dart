@@ -2,14 +2,14 @@
           backgroundColor: Colors.white,
           title: text,
           centerTitle: true,
-          // start leading in right side get Icons
+          // start leading in links side get Icons
           leading: IconButton(
             onPressed: () {},
             icon: Icon(Icons.menu),
             color: Colors.blue,
             iconSize: 33,
           ),
-          // start action in links side get a Icons
+          // start action in right side get a Icons
           actions: [
             // start search bottom
             IconButton(
