@@ -36,4 +36,15 @@ print(date2);	اضافة مدة زمنية	2022-08-18 02:03:02.000
 
 DateTime date1 = DateTime.parse("2022-08-18");
 DateTime date2 = date1.subtract(time1);
-print(date2);	طرح مدة زمنية	2022-08-17 21:56:58.000
+print(date2);	طرح مدة زمنية	2022-08-17 21:56:58.000,
+
+// example
+  changeEverySec(){
+    Timer.periodic(const Duration(seconds:1), (timer){
+      setState(() {
+        weekday = DateFormat("EEEE").format(DateTime.now());
+        date = DateFormat("MM d, y").format(DateTime.now());
+        timeNow = DateFormat('hh : mm : ss a').format(DateTime.now());
+      });
+    });
+  }

@@ -85,3 +85,17 @@ print(item);
 i++;
 
 }
+// 10 switch 
+   switch (dayweek) {
+          case "1":
+            dayweek = "monday";
+            break;
+
+          case "2":
+            dayweek = "thursday";
+            break;
+
+          case "3":
+            dayweek = "wednesday";
+            break;
+        }
