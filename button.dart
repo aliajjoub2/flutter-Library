@@ -61,3 +61,25 @@ OutlinedButton(
                         color: Colors.black,
                       ),
                     ),
+// elevetedButton Icon
+  ElevatedButton.icon(
+                onPressed: ()  {
+               
+                },
+                icon: Icon(
+                  Icons.edit_location,
+                  color: Color.fromARGB(255, 255, 129, 129),
+                  size: 24.0,
+                ),
+                label: Text(
+                  "Edit location",
+                  style: TextStyle(fontSize: 19),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      Color.fromARGB(146, 90, 103, 223)),
+                  padding: MaterialStateProperty.all(EdgeInsets.all(22)),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12))),
+                ),
+              ),

@@ -6,6 +6,7 @@
         alignment: Alignment.center,
         margin: EdgeInsets.fromLTRB(20, 10, 10, 5),
         padding: EdgeInsets.all(2),
+        // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 33),
 
         //color: Colors.red,
         decoration: BoxDecoration(
@@ -16,6 +17,9 @@
                   width: 12,
                 ),
           shape: BoxShape.circle,
+          // add backgorunf image
+          image: DecorationImage(
+              image: AssetImage("assets/$bgimg"), fit: BoxFit.cover),
         ),
         child: Text(
           'here Ali',
