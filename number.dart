@@ -36,3 +36,7 @@ isNegative	لمعرفة اذا كان العدد سالب ام لا
 👈 لإنشاء رقم صحيح من صفر الى رقم انت تُحددهRandom().nextInt(20)
 
 👈 لإنشاء قيمة boolean بشكل عشوائى (true or false)Random().nextBool()
+
+// make to nomber after the comma
+ price += product.price; // price= 12,3456
+    price = double.parse((price).toStringAsFixed(2)); // will price= 12,34
