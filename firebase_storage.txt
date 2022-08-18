@@ -1,0 +1,74 @@
+1- image_picker 0.8.5+3
+install
+flutter pub add image_picker
+
+2- Function to get img path:
+ File? imgPath;
+     
+    uploadImage() async {
+    final pickedImg = await ImagePicker().pickImage(source: ImageSource.camera);
+    try {
+      if (pickedImg != null) {
+        setState(() {imgPath = File(pickedImg.path);});
+    } else {print("NO img selected");}
+    } catch (e) {print("Error => $e");}
+      }
+
+3- Use Image.file(imgPath!)
+ Center(
+     
+    child: (imgPath == null)
+      ? Text("No img selected")
+      : Image.file(imgPath!)
+     
+    ),
+
+4- الحصول على اسم الصورة فقط
+ import 'package:path/path.dart' show basename;
+     
+    if (pickedImg != null) {
+      setState(() {
+      imgPath = File(pickedImg.path);
+      String imgName = basename(pickedImg.path);
+      print("ــــــــــــــــــــــــــــــــــ");
+      print(imgPath);
+      print(imgName);
+     
+    });} 
+
+5- إنشاء إسم فريد لكل صورة
+ import "dart:math";
+     
+  String imgName = basename(pickedImg.path);
+  int random = Random().nextInt(9999999);
+  imgName = "$random$imgName";
+  print("______________________________");
+  print(imgName);
+
+ ---------------------------------------------------------------------------------------------------
+ firebase_storage 10.3.5
+ https://pub.dev/packages/firebase_storage/install
+
+ install
+ flutter pub add firebase_storage
+
+ 1- Edit rules in firebase storage
+ allow read, write;
+
+ 2- Upload img to firebase storage
+ //Global variable
+   String? imgName;
+     
+// Upload image to firebase storage
+  final storageRef = FirebaseStorage.instance.ref(imgName);
+  await storageRef.putFile(imgPath!);   
+      
+// Get img url
+   String url = await storageRef.getDownloadURL();
+   
+// Store img url in firestore[database]
+   CollectionReference users = FirebaseFirestore.instance.collection('userSSS');
+   users.doc(credential!.uid).set({"imgURL": url,});
+//====OR====
+   users.doc(credential!.uid).update({"imgURL": url,});
+

@@ -1,0 +1,106 @@
+
+1- firebase_core 1.20.1
+ https://pub.dev/packages/firebase_core/install
+2- firebase_auth 3.6.3 
+https://pub.dev/packages/firebase_auth/install
+3
+firebase google
+4Android>Android package name = android>app>build.gradle>applicationId
+
+5 android>app>build.gradle>minSdkVersion 21
+
+6 android>app>google-services.json
+
+7 classpath 'com.google.gms:google-services:4.3.10' = android>build.gradle>dependencies
+
+8 apply plugin: 'com.google.gms.google-services' = android>app>build.gradle last line
+
+9-  in main.dart
+Future<void> main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    runApp(const MyApp());
+ }
+ 
+ 10- For web [Level4 lesson7]
+  void main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    if (kIsWeb) {
+      await Firebase.initializeApp(
+         options: const FirebaseOptions(
+           apiKey: "dddd",
+           authDomain: "dddd",
+           projectId: "dddd",
+           storageBucket: "dddd",
+           messagingSenderId: "dddd",
+           appId: "dddd"));
+  } else {
+ await Firebase.initializeApp();
+  }
+ runApp(const MyApp());
+ }
+
+---------------------------
+Validation
+
+Check if email is valid
+bool isVlidEmail = email.contains(RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"));
+
+Check if password contains all required characters
+
+bool hasUppercase = password.contains( RegExp(r'[A-Z]') );
+bool hasDigits = password.contains( RegExp(r'[0-9]') );
+bool hasLowercase = password.contains( RegExp(r'[a-z]') );
+bool hasSpecialCharacters = password.contains( RegExp(r'[!@#$%^&*(),.?":{}|<>]') );
+bool hasMin8Characters = password.contains( RegExp(r'.{8,}') );
+
+-----------------
+sign in 
+try {
+final credential =
+await FirebaseAuth.instance.createUserWithEmailAndPassword(
+email: emailController.text,
+password: passwordController.text,
+);
+
+print(credential.user!.uid);
+
+// Upload image to firebase storage
+final storageRef = FirebaseStorage.instance.ref("users-imgs/$imgName");
+await storageRef.putFile(imgPath!);
+String urll = await storageRef.getDownloadURL();
+
+print(credential.user!.uid);
+
+--
+in main.dart
+ MaterialApp(
+    home: StreamBuilder(
+    stream: FirebaseAuth.instance.authStateChanges(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {return Center(child: CircularProgressIndicator(color: Colors.white,));} 
+      else if (snapshot.hasError) {return showSnackBar(context, "Something went wrong");}
+      else if (snapshot.hasData) {return Home();}
+      else { return Login();}
+    },
+ ),
+ ),
+----------------------------------
+
+signOut()
+await FirebaseAuth.instance.signOut();
+
+------------------------------------
+
+- Verify email
+https://github.com/alielrayes/verify_email_screen_for_firebase/blob/master/verify_email_screen.dart
+
+------------------------------------------------
+
+google_sign_in 5.4.1
+https://pub.dev/packages/google_sign_in
+
+complet course
+https://courses4arab.com/flutter-level3/flutter-17.html
+
+------------------------------------------
