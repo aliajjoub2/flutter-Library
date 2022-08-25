@@ -1,0 +1,11 @@
+# 1 offen chrome
+flutter run -d chrome --web-renderer html
+
+# 2 get the width of screen
+final double widthScreen = MediaQuery.of(context).size.width;
+
+# 3 LayoutBuilder
+LayoutBuilder(builder: (buildContext, boxConstraints) {
+    if (boxConstraints.maxWidth > 600) {...}
+    else {...}
+)

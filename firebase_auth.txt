@@ -1,3 +1,5 @@
+## install all services firebase with image picker
+flutter pub add image_picker firebase_storage  cloud_firestore firebase_auth
 
 1- firebase_core 1.20.1
  https://pub.dev/packages/firebase_core/install
