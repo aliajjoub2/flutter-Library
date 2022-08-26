@@ -62,3 +62,60 @@ final carttt = Provider.of<Cart>(context);
                             },
                             icon: Icon(Icons.add));
                       })),
+
+// -------------------------------------------------------------------------------------------------------------------------
+
+//Steps to get data from firestore(Database) into responsive.dart using provider
+
+1- In main.dart
+ return ChangeNotifierProvider(
+    create: (context) {return ClassName();},
+    child: MaterialApp(home: Home(),),
+);
+
+2- provider>user_provider.dart
+ class UserProvider with ChangeNotifier {
+  UserData? _userData;
+  UserData? get getUser => _userData;
+  
+  refreshUser() async {
+    UserData userData = await AuthMethods().getUserDetails();
+    _userData = userData;
+    notifyListeners();
+  }
+ }
+ 3- firebase_services>auth.dart
+ // functoin to get user details from Firestore (Database)
+Future<UserData> getUserDetails() async {
+   DocumentSnapshot snap = await FirebaseFirestore.instance.collection('userSSS').doc(FirebaseAuth.instance.currentUser!.uid).get(); 
+   return UserData.convertSnap2Model(snap);
+ }
+
+4- models>user.dart
+ // function that convert "DocumentSnapshot" to a User
+// function that takes "DocumentSnapshot" and return a User
+ 
+ static    convertSnap2Model(DocumentSnapshot snap) {
+ var snapshot = snap.data() as Map<String, dynamic>;
+ return UserData(
+  email: snapshot["..."],
+  username: snapshot["..."],);
+ }
+
+ 5- In responsive.dart
+// To get data from DB using provider
+ getDataFromDB() async {
+ UserProvider userProvider = Provider.of(context, listen: false);
+ await userProvider.refreshUser();
+ }
+
+ @override
+ void initState() {
+    super.initState();
+    getDataFromDB();
+ }
+
+ 6- يتم تخزين الـdata بداخل هذا الـ variable 👇
+
+final allDataFromDB = Provider.of<UserProvider>(context).getUser;
+

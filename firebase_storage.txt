@@ -1,74 +1,173 @@
-1- image_picker 0.8.5+3
-install
-flutter pub add image_picker
+ Upload img to screen (Mobile)  
+    1- image_picker 0.8.5+3
+    install
+    flutter pub add image_picker
 
-2- Function to get img path:
- File? imgPath;
-     
-    uploadImage() async {
-    final pickedImg = await ImagePicker().pickImage(source: ImageSource.camera);
-    try {
-      if (pickedImg != null) {
-        setState(() {imgPath = File(pickedImg.path);});
-    } else {print("NO img selected");}
-    } catch (e) {print("Error => $e");}
-      }
+    2- Function to get img path:
+    File? imgPath;
+        
+        uploadImage() async {
+        final pickedImg = await ImagePicker().pickImage(source: ImageSource.camera);
+        try {
+          if (pickedImg != null) {
+            setState(() {imgPath = File(pickedImg.path);});
+        } else {print("NO img selected");}
+        } catch (e) {print("Error => $e");}
+          }
 
-3- Use Image.file(imgPath!)
- Center(
-     
-    child: (imgPath == null)
-      ? Text("No img selected")
-      : Image.file(imgPath!)
-     
-    ),
+    3- Use Image.file(imgPath!)
+    Center(
+        
+        child: (imgPath == null)
+          ? Text("No img selected")
+          : Image.file(imgPath!)
+        
+        ),
 
-4- الحصول على اسم الصورة فقط
- import 'package:path/path.dart' show basename;
-     
-    if (pickedImg != null) {
-      setState(() {
-      imgPath = File(pickedImg.path);
+    4- الحصول على اسم الصورة فقط
+    import 'package:path/path.dart' show basename;
+        
+        if (pickedImg != null) {
+          setState(() {
+          imgPath = File(pickedImg.path);
+          String imgName = basename(pickedImg.path);
+          print("ــــــــــــــــــــــــــــــــــ");
+          print(imgPath);
+          print(imgName);
+        
+        });} 
+
+    5- إنشاء إسم فريد لكل صورة
+    import "dart:math";
+        
       String imgName = basename(pickedImg.path);
-      print("ــــــــــــــــــــــــــــــــــ");
-      print(imgPath);
+      int random = Random().nextInt(9999999);
+      imgName = "$random$imgName";
+      print("______________________________");
       print(imgName);
-     
-    });} 
-
-5- إنشاء إسم فريد لكل صورة
- import "dart:math";
-     
-  String imgName = basename(pickedImg.path);
-  int random = Random().nextInt(9999999);
-  imgName = "$random$imgName";
-  print("______________________________");
-  print(imgName);
 
  ---------------------------------------------------------------------------------------------------
  firebase_storage 10.3.5
  https://pub.dev/packages/firebase_storage/install
 
- install
- flutter pub add firebase_storage
+    install
+    flutter pub add firebase_storage
 
- 1- Edit rules in firebase storage
- allow read, write;
+    1- Edit rules in firebase storage
+    allow read, write;
 
- 2- Upload img to firebase storage
- //Global variable
-   String? imgName;
-     
-// Upload image to firebase storage
-  final storageRef = FirebaseStorage.instance.ref(imgName);
-  await storageRef.putFile(imgPath!);   
+    2- Upload img to firebase storage
+    //Global variable
+      String? imgName;
+        
+    // Upload image to firebase storage
+      final storageRef = FirebaseStorage.instance.ref(imgName);
+      await storageRef.putFile(imgPath!);   
+          
+    // Get img url
+      String url = await storageRef.getDownloadURL();
       
-// Get img url
-   String url = await storageRef.getDownloadURL();
-   
-// Store img url in firestore[database]
-   CollectionReference users = FirebaseFirestore.instance.collection('userSSS');
-   users.doc(credential!.uid).set({"imgURL": url,});
-//====OR====
-   users.doc(credential!.uid).update({"imgURL": url,});
+    // Store img url in firestore[database]
+      CollectionReference users = FirebaseFirestore.instance.collection('userSSS');
+      users.doc(credential!.uid).set({"imgURL": url,});
+    //====OR====
+      users.doc(credential!.uid).update({"imgURL": url,});
 
+   -------------------------------------------------------------------------------------------------
+
+
+#### Upload img to screen (Mobile & Web)
+
+      1- import 'dart:typed_data';
+      
+      Uint8List? imgPath;
+      String? imgName;
+
+      2- 
+      uploadImage2Screen(ImageSource source) async {
+      Navigator.pop(context);
+      final XFile? pickedImg = await ImagePicker().pickImage(source: source);
+        try {
+            if (pickedImg != null) {
+            imgPath = await pickedImg.readAsBytes();
+            setState(() {
+            imgName = basename(pickedImg.path);
+            int random = Random().nextInt(9999999);
+            imgName = "$random$imgName";
+            print(imgName);
+        });
+      } else {
+        print("NO img selected");
+        }
+      } catch (e) {
+        print("Error => $e");
+        }}
+
+        3- 
+        CircleAvatar(
+        radius: 71,
+        backgroundImage: MemoryImage(imgPath!),
+      ),
+-------------------------------------------------------------------------------------------
+
+## show source of image from gallery or from camera
+
+    showmodel() {
+        return showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              padding: EdgeInsets.all(22),
+              height: 170,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      await uploadImage2Screen(ImageSource.camera);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.camera,
+                          size: 30,
+                        ),
+                        SizedBox(
+                          width: 11,
+                        ),
+                        Text(
+                          "From Camera",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 22,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      uploadImage2Screen(ImageSource.gallery);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.photo_outlined,
+                          size: 30,
+                        ),
+                        SizedBox(
+                          width: 11,
+                        ),
+                        Text(
+                          "From Gallery",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }

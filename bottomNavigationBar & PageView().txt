@@ -1,0 +1,43 @@
+# 1- bottomNavigationBar:
+bottomNavigationBar: CupertinoTabBar(
+     onTap: (index){  _pageController.jumpToPage(index);   
+        // change icon color  
+      } 
+     backgroundColor:  ...,
+     items: [
+      BottomNavigationBarItem(
+        label: "...",
+        icon: ...,)
+
+ ]),
+
+ # 2- PageView(
+   onPageChanged: (index) {...}
+   physics: NeverScrollableScrollPhysics(),      
+   controller: _pageController,
+   children: [...],
+)
+
+# 3- To control which page is visible in a PageView:
+        1- Create a PageController.
+        final PageController _pageController = PageController();
+        https://api.flutter.dev/flutter/widgets/PageController-class.html
+
+        2- Connect the PageController to a PageView().
+        PageView( controller: _pageController, ),
+
+        3- Create a function to do what you want in bottomNavigationBar.
+        CupertinoTabBar(
+        onTap: (index) {
+        // navigate to the tabed page
+        _pageController.jumpToPage(index);
+        }
+        )
+
+        4- stop listening when the widget is deleted.
+        @override
+        void dispose() {
+        _pageController.dispose();
+        super.dispose();
+        }
+
