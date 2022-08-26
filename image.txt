@@ -46,3 +46,20 @@
         width: double.infinity,
         height: 600,
       ),
+
+  -------------------------------------------------------------------------
+  #21 Image.network() VS NetworkImage()
+  
+      ⚠ Image.network() ==> widget
+
+      ⚠ NetworkImage() ==> ImageProvider
+
+      Image.network() + ClipRRect() ==> حواف دائرية
+        ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Image.network()
+      )
+      NetworkImage() + CircleAvatar() ==> صورة دائرية
+        CircleAvatar(
+      backgroundImage:NetworkImage()
+      )

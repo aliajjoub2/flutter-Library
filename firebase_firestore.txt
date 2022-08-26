@@ -267,6 +267,13 @@ is not supported, however you can get the same result set by combining two queri
 
    users.doc(credential!.uid).update({"KEY": VALUE});
 
+   If the data is an Array(List)
+  //To add value  into a list
+  await FirebaseFirestore.instance.collection("...").doc("...").update({"KEY": FieldValue.arrayUnion([VALUE])});
+  
+  //To remove from a list
+  await FirebaseFirestore.instance.collection("...").doc("...").update({"KEY": FieldValue.arrayRemove([VALUE])});
+
 --------------------------------------------------------------------------------------------------------------------------------
 
 6-  Delete date & user
