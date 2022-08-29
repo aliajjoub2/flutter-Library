@@ -38,6 +38,10 @@ https://firebase.flutter.dev/docs/firestore/usage/#read-data
 
 ###### One-time Read
 
+FirebaseFirestore.instance.collection('postsss').where("uid", isEqualTo:FirebaseAuth.instance.currentUser!.uid).get(),
+snapshot.data!.docs is a list of maps [list of documents]
+snapshot.data!.docs[0] is a map [data of one document]
+
 ## example
 class GetUserName extends StatelessWidget {
   final String documentId;
